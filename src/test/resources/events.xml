@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<events>
+	<event id="ResponseTimeEvent">
+		<properties>
+			<property id="id" type="String" />
+			<property id="timestamp" type="Double" />
+			<property id="responseTime" type="Double" />
+		</properties>
+	</event>
+
+	<event id="AvailabiltyEvent">
+		<properties>
+			<property id="id" type="String" />
+			<property id="timestamp" type="Double" />
+			<property id="availability" type="Double" />
+		</properties>
+	</event>
+
+	<event id="LoginEvent">
+		<properties>
+			<property id="id" type="String" />
+			<property id="timestamp" type="Double" />
+			<property id="group" type="String" />
+			<property id="user" type="String" />
+		</properties>
+	</event>
+</events>
