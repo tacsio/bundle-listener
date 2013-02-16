@@ -11,9 +11,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.util.tracker.BundleTracker;
 
-import parser.event.Event;
+import parser.agent.AgentList;
 import parser.event.EventList;
-import parser.event.Property;
 
 public class BundleListener extends BundleTracker {
 
@@ -46,17 +45,27 @@ public class BundleListener extends BundleTracker {
 	private void initJAXBContexts() {
 		try {
 			this.initEvent();
+			this.initAgent();
+			this.initContextModel();
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-		//this.initAgent();
-		//this.initContextModel();
+	}
+
+
+	private void initAgent() throws JAXBException {
+		JAXBContext context =  JAXBContext.newInstance(AgentList.class);
+		JAXBContexts.put(AgentList.CONFIG, context.createUnmarshaller());
 	}
 
 
 	private void initEvent() throws JAXBException {
 		JAXBContext context = JAXBContext.newInstance(EventList.class); 
 		JAXBContexts.put(EventList.CONFIG, context.createUnmarshaller());
+	}
+	
+	private void initContextModel(){
+		//TODO
 	}
 	
 }

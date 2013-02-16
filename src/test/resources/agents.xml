@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<agents>
+	<agent>
+		<name>ResponseTime</name>
+		<description>Response time from invocation</description>
+		<transformer type="mapping">
+			<input-event type="InvocationEvent"/>
+			<output-event type="ResponseTimeEvent"/>
+			
+			<mapping>
+				<property id="id" type="Double" generated="true" />
+				<property id="timestamp" type="Double" gererated="true" />
+				<property id="responseTime" type="Double">InvocationEvent.response.timestamp - InvocationEvent.request.timestamp</property>
+			</mapping>
+		</transformer>
+	</agent>
+
+	<agent>
+		<name>Availability</name>
+		<description>Availability from service</description>
+		<transformer type="class" classname="br.ufpe.cin.dsoa.ping">
+			<input-event type="InvocationEvent" />
+			<output-event type="AvailabiltyEvent" />
+		</transformer>
+	</agent>
+</agents>
+

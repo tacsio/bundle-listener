@@ -12,6 +12,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
+import parser.Property;
+
 @XmlType(name= "")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Event {
