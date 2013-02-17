@@ -16,7 +16,7 @@ public class EventList {
 	@XmlElement(name = "event")
 	private List<Event> events;
 
-	public static final String CONFIG = "/DSOA-INF/events.xml";
+	public static final String CONFIG = "DSOA-INF/event.xml";
 	
 	public List<Event> getEvents() {
 		return events;

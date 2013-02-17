@@ -33,13 +33,13 @@ public class EventParserSpec {
 
 	private EventList getList() throws FileNotFoundException, JAXBException {
 		EventList list = (EventList) u.unmarshal(new FileInputStream(
-				"src/test/resources/events.xml"));
+				"src/test/resources/event.xml"));
 		return list;
 	}
 	
 	@Test
 	public void testConfigPath(){
-		assertEquals(EventList.CONFIG, "/DSOA-INF/events.xml");
+		assertEquals(EventList.CONFIG, "DSOA-INF/event.xml");
 	}
 	
 	@Test

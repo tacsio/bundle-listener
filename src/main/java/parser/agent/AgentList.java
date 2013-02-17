@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AgentList {
 
-	public static final String CONFIG = "/DSOA-INF/agents.xml";
+	public static final String CONFIG = "DSOA-INF/agent.xml";
 	
 	@XmlElement(name = "agent")
 	private List<Agent> agents;

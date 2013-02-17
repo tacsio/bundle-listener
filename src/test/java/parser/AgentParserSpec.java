@@ -36,13 +36,13 @@ public class AgentParserSpec {
 	
 	private AgentList getList() throws FileNotFoundException, JAXBException {
 		AgentList list = (AgentList) u.unmarshal(new FileInputStream(
-				"src/test/resources/agents.xml"));
+				"src/test/resources/agent.xml"));
 		return list;
 	}
 	
 	@Test
 	public void testConfigPath() {
-		assertEquals(AgentList.CONFIG, "/DSOA-INF/agents.xml");
+		assertEquals(AgentList.CONFIG, "DSOA-INF/agent.xml");
 	}
 	
 	@Test

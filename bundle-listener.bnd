@@ -1,0 +1,2 @@
+Private-Package: listener, parser.*
+Bundle-Activator: listener.Activator
