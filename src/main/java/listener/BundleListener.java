@@ -15,6 +15,11 @@ import org.osgi.util.tracker.BundleTracker;
 import parser.JAXBInitializer;
 import parser.agent.Agent;
 import parser.agent.AgentList;
+import parser.contextmodel.Context;
+import parser.contextmodel.ContextElement;
+import parser.contextmodel.ContextMapping;
+import parser.contextmodel.ContextModel;
+import parser.contextmodel.Element;
 import parser.event.Event;
 import parser.event.EventList;
 
@@ -35,10 +40,9 @@ public class BundleListener extends BundleTracker {
 	@Override
 	public Object addingBundle(Bundle bundle, BundleEvent event) {
 		try {
-			//search for event definitions
 			this.handleEventDefinition(bundle);
 			this.handleAgentDefinition(bundle);
-			//TODO:Context model
+			this.handleContextDefinition(bundle);
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -78,5 +82,29 @@ public class BundleListener extends BundleTracker {
 			}
 		}
 	}
+	
+	private void handleContextDefinition(Bundle bundle) throws JAXBException {
+		URL url = bundle.getEntry(ContextModel.CONFIG);
+		if(url != null) {
+			ContextModel contextModel = (ContextModel) JAXBContexts.get(ContextModel.CONFIG).unmarshal(url);
+			logger.info("Context :");//LOG
+			for(Context c : contextModel.getContexts()) {
+				logger.info(String.format("Context Category: %s", c.getCategory()));//LOG
+				
+				for(Element e : c.getElements()) {
+					logger.info(String.format("Element id: %s", e.getId()));
+				}
+			}
+			
+			for(ContextMapping cm : contextModel.getContextMappings()) {
+				logger.info(String.format("Context Mapping: %s", cm.getCategory()));
+				
+				for(ContextElement ce : cm.getContextElements()) {
+					logger.info(String.format("Event Property: %s", ce.getEventProperty()));
+				}
+			}
+		}
+	}
+
 
 }
