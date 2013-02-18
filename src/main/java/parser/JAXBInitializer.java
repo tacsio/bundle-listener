@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import parser.agent.AgentList;
+import parser.contextmodel.ContextModel;
 import parser.event.EventList;
 
 public class JAXBInitializer {
@@ -18,8 +19,7 @@ public class JAXBInitializer {
 
 		contexts.put(EventList.CONFIG, JAXBInitializer.initEvent());
 		contexts.put(AgentList.CONFIG, JAXBInitializer.initAgent());
-		// contexts.put(ContextModel.CONFIG,
-		// JAXBInitializer.initContextModel()); FIXME
+		contexts.put(ContextModel.CONFIG, JAXBInitializer.initContextModel()); 
 
 		return contexts;
 	}
@@ -35,8 +35,7 @@ public class JAXBInitializer {
 	}
 
 	private static Unmarshaller initContextModel() throws JAXBException {
-		// JAXBContext context = JAXBContext.newInstance(ContextModel.class);
-		return null;// context;
-		// TODO
+		JAXBContext context = JAXBContext.newInstance(ContextModel.class);
+		return context.createUnmarshaller();
 	}
 }
