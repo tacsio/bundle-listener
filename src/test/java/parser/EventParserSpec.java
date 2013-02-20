@@ -1,6 +1,7 @@
 package parser;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,9 +44,9 @@ public class EventParserSpec {
 	}
 	
 	@Test
-	public void testEventId(){
+	public void testEventType(){
 		Event e = list.getEvents().get(0);
-		assertEquals("xml has modified", "ResponseTimeEvent", e.getId());
+		assertEquals("xml has modified", "ResponseTimeEvent", e.getType());
 	}
 
 	@Test

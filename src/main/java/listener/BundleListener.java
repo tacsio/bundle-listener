@@ -67,7 +67,7 @@ public class BundleListener extends BundleTracker {
 			EventList list = (EventList) JAXBContexts.get(EventList.CONFIG).unmarshal(url);
 			logger.info("Event list:");//LOG
 			for(Event e : list.getEvents()) {
-				logger.info(String.format("Event id: %s", e.getId()));//LOG
+				logger.info(String.format("Event id: %s", e.getType()));//LOG
 			}
 		}
 	}

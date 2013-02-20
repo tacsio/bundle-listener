@@ -84,8 +84,8 @@ public class AgentParserSpec {
 		
 		Transformer t = list.getAgents().get(0).getTransformer(); 
 		
-		String input = t.getInputEvent().getType();
-		String output = t.getOutputEvent().getType();
+		String input = t.getInputEvents().get(0).getType();
+		String output = t.getOutputEvents().get(0).getType();
 		
 		assertEquals("Xml has modified", inputEvent, input);
 		assertEquals("Xml has modified", outputEvent, output);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <events>
-	<event id="ResponseTimeEvent">
+	<event type="ResponseTimeEvent">
 		<properties>
 			<property id="id" type="String" />
 			<property id="timestamp" type="Double" />
@@ -8,7 +8,7 @@
 		</properties>
 	</event>
 
-	<event id="AvailabiltyEvent">
+	<event type="AvailabiltyEvent">
 		<properties>
 			<property id="id" type="String" />
 			<property id="timestamp" type="Double" />
@@ -16,7 +16,7 @@
 		</properties>
 	</event>
 
-	<event id="LoginEvent">
+	<event type="LoginEvent">
 		<properties>
 			<property id="id" type="String" />
 			<property id="timestamp" type="Double" />

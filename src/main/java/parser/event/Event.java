@@ -19,18 +19,18 @@ import parser.Property;
 public class Event {
 
 	@XmlAttribute(required = true)
-	private String id;
+	private String type;
 
 	@XmlElementWrapper(name = "properties")
 	@XmlElement(name = "property")
 	private List<Property> properties;
 
-	public String getId() {
-		return this.id;
+	public String getType() {
+		return this.type;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Map<String, String> getProperties() {

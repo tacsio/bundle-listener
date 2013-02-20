@@ -12,8 +12,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlType;
 
 import parser.Property;
-import parser.event.type.InputEvent;
-import parser.event.type.OutputEvent;
+import parser.event.Event;
 
 @XmlType(name = "")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -24,11 +23,13 @@ public class Transformer {
 	@XmlAttribute(name = "type")
 	private String type;
 	
-	@XmlElement(name = "input-event")
-	private InputEvent inputEvent;
+	@XmlElementWrapper(name = "input-events")
+	@XmlElement(name = "event")
+	private List<Event> inputEvents;
 	
-	@XmlElement(name = "output-event")
-	private OutputEvent outputEvent;
+	@XmlElementWrapper(name = "output-events")
+	@XmlElement(name = "event")
+	private List<Event> outputEvents;
 	
 	@XmlElementWrapper(name = "mapping")
 	@XmlElement(name = "property")
@@ -41,21 +42,21 @@ public class Transformer {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public InputEvent getInputEvent() {
-		return inputEvent;
+	
+	public List<Event> getOutputEvents() {
+		return outputEvents;
 	}
 
-	public void setInputEvent(InputEvent inputEvent) {
-		this.inputEvent = inputEvent;
+	public void setOutputEvents(List<Event> outputEvents) {
+		this.outputEvents = outputEvents;
 	}
 
-	public OutputEvent getOutputEvent() {
-		return outputEvent;
+	public List<Event> getInputEvents() {
+		return inputEvents;
 	}
 
-	public void setOutputEvent(OutputEvent outputEvent) {
-		this.outputEvent = outputEvent;
+	public void setInputEvents(List<Event> inputEvents) {
+		this.inputEvents = inputEvents;
 	}
 
 	public Map<String, String> getMapping() {

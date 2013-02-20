@@ -4,8 +4,12 @@
 		<name>ResponseTime</name>
 		<description>Response time from invocation</description>
 		<transformer type="mapping">
-			<input-event type="InvocationEvent"/>
-			<output-event type="ResponseTimeEvent"/>
+			<input-events>
+				<event type="InvocationEvent"/>
+			</input-events>
+			<output-events >
+				<event type="ResponseTimeEvent"/>
+			</output-events>
 			
 			<mapping>
 				<property id="id" type="Double" generated="true" />
@@ -19,8 +23,12 @@
 		<name>Availability</name>
 		<description>Availability from service</description>
 		<transformer type="class" classname="br.ufpe.cin.dsoa.ping">
-			<input-event type="InvocationEvent" />
-			<output-event type="AvailabiltyEvent" />
+			<input-events>
+				<event type="InvocationEvent"/>
+			</input-events>
+			<output-events >
+				<event type="AvailabiltyEvent"/>
+			</output-events>
 		</transformer>
 	</agent>
 </agents>
