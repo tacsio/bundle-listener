@@ -12,6 +12,9 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.util.tracker.BundleTracker;
 
+import br.ufpe.cin.dsoa.epcenter.EventConsumer;
+import br.ufpe.cin.dsoa.epcenter.EventProcessingCenter;
+
 import parser.JAXBInitializer;
 import parser.agent.Agent;
 import parser.agent.AgentList;
@@ -27,6 +30,7 @@ public class BundleListener extends BundleTracker {
 
 	private BundleContext ctx;
 	private Map<String, Unmarshaller> JAXBContexts;
+	private EventProcessingCenter epCenter;
 	
 	private static Logger logger = Logger.getLogger(BundleListener.class.getName());
 	
@@ -45,6 +49,8 @@ public class BundleListener extends BundleTracker {
 			this.handleContextDefinition(bundle);
 		} catch (JAXBException e) {
 			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		
 		return super.addingBundle(bundle, event);
@@ -61,13 +67,13 @@ public class BundleListener extends BundleTracker {
 	}
 	
 	
-	private void handleEventDefinition(Bundle bundle) throws JAXBException {
+	private void handleEventDefinition(Bundle bundle) throws JAXBException, ClassNotFoundException {
 		URL url = bundle.getEntry(EventList.CONFIG);
 		if(url != null) {
 			EventList list = (EventList) JAXBContexts.get(EventList.CONFIG).unmarshal(url);
-			logger.info("Event list:");//LOG
+			
 			for(Event e : list.getEvents()) {
-				logger.info(String.format("Event id: %s", e.getType()));//LOG
+				this.epCenter.defineEvent(e.getType(), e.getProperties());
 			}
 		}
 	}
@@ -76,8 +82,18 @@ public class BundleListener extends BundleTracker {
 		URL url = bundle.getEntry(AgentList.CONFIG);
 		if(url != null) {
 			AgentList list = (AgentList) JAXBContexts.get(AgentList.CONFIG).unmarshal(url);
-			logger.info("Agent list:");//LOG
+			
 			for(Agent a : list.getAgents()) {
+				EventConsumer consumer = new EventConsumer() {
+					
+					public void receive(Map result, Object userObject, String statementName) {
+						
+					}
+				};
+				
+				for(Event e : a.getTransformer().getInputEvents()){
+					epCenter.subscribe(e.getType(), consumer);
+				}
 				logger.info(String.format("Agent name: %s", a.getName()));//LOG
 			}
 		}

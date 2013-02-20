@@ -33,10 +33,10 @@ public class Event {
 		this.type = type;
 	}
 
-	public Map<String, String> getProperties() {
-		Map<String, String> props  = new HashMap<String, String>();
+	public Map<String, Object> getProperties() throws ClassNotFoundException {
+		Map<String, Object> props  = new HashMap<String, Object>();
 		for(Property p : properties){
-			props.put(p.getId(), p.getType());
+			props.put(p.getId(), Class.forName(p.getType()));
 		}
 		return props;
 	}
