@@ -1,6 +1,7 @@
 package listener;
 
 import java.net.URL;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -97,16 +98,22 @@ public class BundleListener extends BundleTracker {
 			for(Context c : contextModel.getContexts()) {
 				logger.info(String.format("Context Category: %s", c.getCategory()));//LOG
 				
-				for(Element e : c.getElements()) {
-					logger.info(String.format("Element id: %s", e.getId()));
+				Map<String, String> elements = c.getElements();
+				
+				for(String key : elements.keySet()) {
+					String e = elements.get(key);
+					logger.info(String.format("Element id: %s", e));
 				}
 			}
 			
 			for(ContextMapping cm : contextModel.getContextMappings()) {
 				logger.info(String.format("Context Mapping: %s", cm.getCategory()));
 				
-				for(ContextElement ce : cm.getContextElements()) {
-					logger.info(String.format("Event Property: %s", ce.getEventProperty()));
+				Map<String, String> contextElements = cm.getContextElements();
+				
+				for(String key : contextElements.keySet()) {
+					String ce = contextElements.get(key);
+					logger.info(String.format("Event Property: %s", ce));
 				}
 			}
 		}

@@ -1,6 +1,8 @@
 package parser.contextmodel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,8 +28,12 @@ public class ContextMapping {
 		this.category = category;
 	}
 
-	public List<ContextElement> getContextElements() {
-		return contextElements;
+	public Map<String, String> getContextElements() {
+		Map<String, String> conElemts = new HashMap<String, String>();
+		for (ContextElement ce : contextElements) {
+			conElemts.put(ce.getId(), ce.getEventProperty());
+		}
+		return conElemts;
 	}
 
 	public void setContextElements(List<ContextElement> contextElements) {
