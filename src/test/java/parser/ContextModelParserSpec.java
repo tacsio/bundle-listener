@@ -5,6 +5,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -62,6 +64,44 @@ public class ContextModelParserSpec {
 		assertEquals("", "", cm.getCategory());
 	}
 	
+	@Test
+	public void testContextElements() {
+		for (Context c : contextModel.getContexts()) {
+			Map<String, String> elements = c.getElements();
+			assertNotNull(elements);
+		}
+	}
 	
-
+	@Test
+	public void testContextMappingElements() {
+		for (ContextMapping ce : contextModel.getContextMappings()) {
+			Map<String, String> contextElemts = ce.getContextElements();
+			assertNotNull(contextElemts);
+		}
+	}
+	
+	@Test
+	public void testContextElement() {
+		
+		Context c = contextModel.getContexts().get(0);
+		assertEquals(3, c.getElements().size());
+		
+		Set<String> set = c.getElements().keySet();
+		for(Object id : set) {
+			assertNotNull(c.getElements().get(id));
+		}
+	}
+	
+	@Test
+	public void testContextElementMapping() {
+		
+		ContextMapping cm = contextModel.getContextMappings().get(0);
+		assertEquals(3, cm.getContextElements().size());
+		
+		Set<String> set = cm.getContextElements().keySet();
+		for(Object id : set) {
+			assertNotNull(cm.getContextElements().get(id));
+		}
+	}
+	
 }
