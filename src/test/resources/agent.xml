@@ -11,13 +11,17 @@
 				<event type="ResponseTimeEvent"/>
 			</output-events>
 			
-			<mapping>
-				<property id="id" type="Double" generated="true" />
-				<property id="timestamp" type="Double" gererated="true" />
-				<property id="responseTime" type="Double">InvocationEvent.response.timestamp - InvocationEvent.request.timestamp</property>
-			</mapping>
+			<mappings>
+				<mapping event="ResponseTimeEvent">
+					<property id="id" type="Double" generated="true" />
+					<property id="timestamp" type="Double" gererated="true" />
+					<property id="responseTime" type="Double">InvocationEvent.response.timestamp - InvocationEvent.request.timestamp</property>
+				</mapping>
+			</mappings>
+			
 			<!-- 
 			query timestamp e id gerados (esper)
+			INSERT into ResponseTimeEvent 
 			SELECT InvocationEvent.response.timestamp - InvocationEvent.request.timestamp as responseTime
 			FROM InvocationEvent
 			
@@ -28,13 +32,34 @@
 	<agent>
 		<name>Availability</name>
 		<description>Availability from service</description>
-		<transformer type="class" classname="br.ufpe.cin.dsoa.ping">
+		<transformer type="class">
 			<input-events>
 				<event type="InvocationEvent"/>
 			</input-events>
 			<output-events >
 				<event type="AvailabiltyEvent"/>
 			</output-events>
+			
+			<classname>br.ufpe.cin.dsoa.ping</classname>
+		</transformer>
+	</agent>
+	
+	<agent>
+		<name>Availability</name>
+		<description>Availability from service</description>
+		<transformer type="query">
+			<input-events>
+				<event type="InvocationEvent"/>
+			</input-events>
+			<output-events >
+				<event type="AvailabiltyEvent"/>
+			</output-events>
+			
+			<query>
+				INSERT into ResponseTimeEvent 
+				SELECT InvocationEvent.response.timestamp - InvocationEvent.request.timestamp as responseTime
+				FROM InvocationEvent
+			</query>
 		</transformer>
 	</agent>
 </agents>

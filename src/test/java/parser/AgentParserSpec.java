@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.bind.JAXBContext;
@@ -92,9 +93,19 @@ public class AgentParserSpec {
 	}
 	
 	@Test
-	public void testTransformerMapping() {
+	public void testTransformerMappings() {
 		Transformer t = list.getAgents().get(0).getTransformer();
 		assertNotNull(t.getMapping());
+	}
+	
+	@Test
+	public void testTransformerMappingsAttributes() {
+		Transformer t = list.getAgents().get(0).getTransformer();
+		Set<String> set = t.getMapping().keySet(); 
+		
+		for(Object id : set){
+			assertNotNull(t.getMapping().get(id));
+		}
 	}
 	
 	@Test
@@ -103,8 +114,26 @@ public class AgentParserSpec {
 		Set<String> set = t.getMapping().keySet(); 
 		
 		for(Object id : set){
-			assertNotNull(t.getMapping().get(id));
+			Map<String,String> properties = t.getMapping().get(id);
+			for(String key : properties.keySet()){
+				assertNotNull(properties.get(key));
+			}
 		}
+	}
+	
+	@Test
+	public void testTransformerQuery(){
+		Transformer t = list.getAgents().get(2).getTransformer();
+		String query = t.getQuery();
+		assertNotNull(query);
+		
+	}
+	
+	@Test
+	public void testTransformerClassname(){
+		Transformer t = list.getAgents().get(1).getTransformer();
+		String classname = t.getClassname();
+		assertNotNull(classname);
 	}
 
 }

@@ -9,16 +9,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
-import parser.Property;
 import parser.event.Event;
 
 @XmlType(name = "")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Transformer {
 
-	public static final String[] TYPES = {"mapping", "class"};
+	public static final String[] TYPES = {"mapping", "class", "query"};
 	
 	@XmlAttribute(name = "type")
 	private String type;
@@ -31,9 +31,18 @@ public class Transformer {
 	@XmlElement(name = "event")
 	private List<Event> outputEvents;
 	
-	@XmlElementWrapper(name = "mapping")
-	@XmlElement(name = "property")
-	private List<Property> mapping;
+	@XmlElementWrapper(name = "mappings")
+	@XmlElement(name = "mapping")
+	private List<Mapping> mappings;
+
+	@XmlElement(name = "query")
+	private String query;
+	
+	@XmlElement(name = "classname")
+	private String classname;
+	
+	@XmlTransient
+	private Map<String, Map<String, String>> eventMappings;
 
 	public String getType() {
 		return type;
@@ -59,17 +68,33 @@ public class Transformer {
 		this.inputEvents = inputEvents;
 	}
 
-	public Map<String, String> getMapping() {
-		Map<String, String> props  = new HashMap<String, String>();
-		for(Property p : mapping){
-			props.put(p.getId(), p.getType());
+	public Map<String, Map<String, String>> getMapping() {
+		if(eventMappings == null){
+			eventMappings = new HashMap<String, Map<String, String>>();
+			for(Mapping m : mappings) {
+				eventMappings.put(m.getEvent(), m.getMapping());
+			}
 		}
-		
-		return props;
+		return eventMappings;
 	}
 
-	public void setMapping(List<Property> mapping) {
-		this.mapping = mapping;
+	public void setMapping(Map<String, Map<String, String>>  mapping) {
+		this.eventMappings = mapping;
 	}
 
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
+		this.query = query;
+	}
+
+	public String getClassname() {
+		return classname;
+	}
+
+	public void setClassname(String classname) {
+		this.classname = classname;
+	}
 }

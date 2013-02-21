@@ -84,16 +84,6 @@ public class BundleListener extends BundleTracker {
 			AgentList list = (AgentList) JAXBContexts.get(AgentList.CONFIG).unmarshal(url);
 			
 			for(Agent a : list.getAgents()) {
-				EventConsumer consumer = new EventConsumer() {
-					
-					public void receive(Map result, Object userObject, String statementName) {
-						
-					}
-				};
-				
-				for(Event e : a.getTransformer().getInputEvents()){
-					epCenter.subscribe(e.getType(), consumer);
-				}
 				logger.info(String.format("Agent name: %s", a.getName()));//LOG
 			}
 		}

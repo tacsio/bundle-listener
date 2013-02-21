@@ -56,15 +56,15 @@ public class EventParserSpec {
 
 	@Test
 	public void testEvetProperties() throws FileNotFoundException,
-			JAXBException {
+			JAXBException, ClassNotFoundException {
 		for (Event e : list.getEvents()) {
-			Map<String, String> props = e.getProperties();
+			Map<String, Object> props = e.getProperties();
 			assertNotNull(props);
 		}
 	}
 
 	@Test
-	public void testEventProperty() throws FileNotFoundException, JAXBException {
+	public void testEventProperty() throws FileNotFoundException, JAXBException, ClassNotFoundException {
 
 		Event e = list.getEvents().get(0);
 		assertEquals(3, e.getProperties().size());
