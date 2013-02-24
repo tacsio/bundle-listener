@@ -1,7 +1,6 @@
 package listener;
 
 import java.net.URL;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -13,31 +12,28 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleEvent;
 import org.osgi.util.tracker.BundleTracker;
 
-import br.ufpe.cin.dsoa.epcenter.EventConsumer;
-import br.ufpe.cin.dsoa.epcenter.EventProcessingCenter;
-
 import parser.JAXBInitializer;
 import parser.agent.Agent;
 import parser.agent.AgentList;
 import parser.contextmodel.Context;
-import parser.contextmodel.ContextElement;
 import parser.contextmodel.ContextMapping;
 import parser.contextmodel.ContextModel;
-import parser.contextmodel.Element;
 import parser.event.Event;
 import parser.event.EventList;
+import br.ufpe.cin.dsoa.epcenter.EventProcessingCenter;
 
 public class BundleListener extends BundleTracker {
 
-	private BundleContext ctx;
+	private BundleContext context;
 	private Map<String, Unmarshaller> JAXBContexts;
 	private EventProcessingCenter epCenter;
+	private BundleListener listener;
 	
 	private static Logger logger = Logger.getLogger(BundleListener.class.getName());
 	
 	public BundleListener(BundleContext context) throws JAXBException {
 		super(context, Bundle.ACTIVE, null);
-		this.ctx = context;
+		this.context = context;
 		this.JAXBContexts = JAXBInitializer.initJAXBContexts();
 	}
 	
@@ -67,6 +63,21 @@ public class BundleListener extends BundleTracker {
 		super.modifiedBundle(bundle, event, object);
 	}
 	
+	public void start() throws Exception {
+		System.out.println("start");
+		listener = new BundleListener(this.context);
+		listener.open();
+	}
+
+	public void stop() throws Exception {
+		System.out.println("start");
+		listener.close();
+	}
+
+	@Deprecated
+	public void setEpCenter(EventProcessingCenter epCenter) {
+		this.epCenter = epCenter;
+	}
 	
 	private void handleEventDefinition(Bundle bundle) throws JAXBException, ClassNotFoundException {
 		URL url = bundle.getEntry(EventList.CONFIG);
@@ -85,7 +96,10 @@ public class BundleListener extends BundleTracker {
 			AgentList list = (AgentList) JAXBContexts.get(AgentList.CONFIG).unmarshal(url);
 			
 			for(Agent a : list.getAgents()) {
-				logger.info(String.format("Agent name: %s", a.getName()));//LOG
+				if(a.getTransformer().getType().equalsIgnoreCase("query")) {
+					String query = a.getTransformer().getQuery();
+					this.epCenter.defineStatement(a.getName(), query);
+				}
 			}
 		}
 	}

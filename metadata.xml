@@ -1,0 +1,8 @@
+<ipojo>
+	<component classname="listener.BundleListener" name="bundleListener">
+		<callback transition="validate" method="start" />
+		<callback transition="invalidate" method="stop" />
+	</component>
+	
+	<instance component="listener.BundleListener" />
+</ipojo>

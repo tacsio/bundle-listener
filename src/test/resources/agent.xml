@@ -45,14 +45,14 @@
 	</agent>
 	
 	<agent>
-		<name>Availability</name>
+		<name>ResponseTime</name>
 		<description>Availability from service</description>
 		<transformer type="query">
 			<input-events>
 				<event type="InvocationEvent"/>
 			</input-events>
 			<output-events >
-				<event type="AvailabiltyEvent"/>
+				<event type="ResponseTimeEvent"/>
 			</output-events>
 			
 			<query>
