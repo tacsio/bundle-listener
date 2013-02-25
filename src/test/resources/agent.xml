@@ -8,21 +8,21 @@
 				<event type="InvocationEvent"/>
 			</input-events>
 			<output-events >
-				<event type="ResponseTimeEvent"/>
+				<event type="ResponseTime"/>
 			</output-events>
 			
 			<mappings>
-				<mapping event="ResponseTimeEvent">
+				<mapping event="ResponseTime">
 					<property id="id" type="Double" generated="true" />
 					<property id="timestamp" type="Double" gererated="true" />
-					<property id="responseTime" type="Double">InvocationEvent.response.timestamp - InvocationEvent.request.timestamp</property>
+					<property id="value" type="Double">InvocationEvent.response.timestamp - InvocationEvent.request.timestamp</property>
 				</mapping>
 			</mappings>
 			
 			<!-- 
 			query timestamp e id gerados (esper)
-			INSERT into ResponseTimeEvent 
-			SELECT InvocationEvent.response.timestamp - InvocationEvent.request.timestamp as responseTime
+			INSERT into ResponseTime 
+			SELECT InvocationEvent.response.timestamp - InvocationEvent.request.timestamp as value
 			FROM InvocationEvent
 			
 			we could use janino (evaluate expression)
@@ -37,7 +37,7 @@
 				<event type="InvocationEvent"/>
 			</input-events>
 			<output-events >
-				<event type="AvailabiltyEvent"/>
+				<event type="Availabilty"/>
 			</output-events>
 			
 			<classname>br.ufpe.cin.dsoa.ping</classname>
@@ -52,12 +52,12 @@
 				<event type="InvocationEvent"/>
 			</input-events>
 			<output-events >
-				<event type="ResponseTimeEvent"/>
+				<event type="ResponseTime"/>
 			</output-events>
 			
 			<query>
-				INSERT into ResponseTimeEvent 
-				SELECT InvocationEvent.response.timestamp - InvocationEvent.request.timestamp as responseTime
+				INSERT into ResponseTime 
+				SELECT InvocationEvent.response.timestamp - InvocationEvent.request.timestamp as value
 				FROM InvocationEvent
 			</query>
 		</transformer>

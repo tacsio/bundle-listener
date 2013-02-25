@@ -21,9 +21,17 @@ public class Event {
 	@XmlAttribute(required = true)
 	private String type;
 
+	@XmlAttribute(name = "extends")
+	private String superType;
+	
 	@XmlElementWrapper(name = "properties")
 	@XmlElement(name = "property")
 	private List<Property> properties;
+
+	
+	public String getSuperType() {
+		return superType;
+	}
 
 	public String getType() {
 		return this.type;
@@ -35,8 +43,8 @@ public class Event {
 
 	public Map<String, Object> getProperties() throws ClassNotFoundException {
 		Map<String, Object> props  = new HashMap<String, Object>();
-		for(Property p : properties){
-			props.put(p.getId(), Class.forName(p.getType()));
+		for(Property p : properties) {
+				props.put(p.getId(), p.getType());
 		}
 		return props;
 	}

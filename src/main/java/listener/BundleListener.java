@@ -1,6 +1,7 @@
 package listener;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -29,12 +30,15 @@ public class BundleListener extends BundleTracker {
 	private EventProcessingCenter epCenter;
 	private BundleListener listener;
 	
+	private Map<String, Event> eventMap;
+	
 	private static Logger logger = Logger.getLogger(BundleListener.class.getName());
 	
 	public BundleListener(BundleContext context) throws JAXBException {
 		super(context, Bundle.ACTIVE, null);
 		this.context = context;
 		this.JAXBContexts = JAXBInitializer.initJAXBContexts();
+		this.eventMap = new HashMap<String, Event>();
 	}
 	
 	
@@ -84,8 +88,27 @@ public class BundleListener extends BundleTracker {
 		if(url != null) {
 			EventList list = (EventList) JAXBContexts.get(EventList.CONFIG).unmarshal(url);
 			
+			//load eventMap
+			for(Event e : list.getEvents()){
+				eventMap.put(e.getType(), e);
+			}
+			
 			for(Event e : list.getEvents()) {
-				this.epCenter.defineEvent(e.getType(), e.getProperties());
+				Map<String, Object> props = e.getProperties();
+				
+				for(String key : e.getProperties().keySet()){
+					try {
+						props.put(key, Class.forName((String) e.getProperties().get(key)));
+					} catch (ClassNotFoundException ex ){
+						props.put(key, e.getProperties().get(key));
+					}
+				}
+				
+				if(null != e.getSuperType()){
+					props.putAll(eventMap.get(e.getSuperType()).getProperties());
+				}
+				
+				this.epCenter.defineEvent(e.getType(), props);
 			}
 		}
 	}
