@@ -1,8 +1,9 @@
 <ipojo>
-	<component classname="listener.BundleListener" name="bundleListener">
+	<component classname="listener.Activator">
+		<requires field="epCenter" />
 		<callback transition="validate" method="start" />
 		<callback transition="invalidate" method="stop" />
 	</component>
 	
-	<instance component="listener.BundleListener" />
+	<instance component="listener.Activator" />
 </ipojo>

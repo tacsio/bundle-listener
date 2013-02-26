@@ -1,31 +1,32 @@
 package listener;
 
-import org.osgi.framework.BundleActivator;
+import javax.xml.bind.JAXBException;
+
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 
 import br.ufpe.cin.dsoa.epcenter.EventProcessingCenter;
 
-public class Activator implements BundleActivator{
+public class Activator {
 
 	private BundleListener listener;
-	
-	public void start(BundleContext context) throws Exception {
-		listener = new BundleListener(context);
-		injectEpCenter(context);
-		listener.open();
+	private EventProcessingCenter epCenter;
+	private BundleContext context;
+
+	public Activator(BundleContext context) {
+		this.context = context;
+	}
+
+	public void start() {
+		try {
+			listener = new BundleListener(context);
+			listener.setEpCenter(epCenter);
+			listener.open();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void stop(BundleContext context) throws Exception {
 		listener.close();
 	}
-	
-	@Deprecated
-	private void injectEpCenter(BundleContext context){
-		ServiceReference ref = context.getServiceReference("br.ufpe.cin.dsoa.epcenter.EventProcessingCenter");
-		EventProcessingCenter epCenter = (EventProcessingCenter) context.getService(ref);
-		listener.setEpCenter(epCenter);
-		
-	}
-
 }

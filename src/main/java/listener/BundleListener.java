@@ -28,7 +28,6 @@ public class BundleListener extends BundleTracker {
 	private BundleContext context;
 	private Map<String, Unmarshaller> JAXBContexts;
 	private EventProcessingCenter epCenter;
-	private BundleListener listener;
 	
 	private Map<String, Event> eventMap;
 	
@@ -67,18 +66,6 @@ public class BundleListener extends BundleTracker {
 		super.modifiedBundle(bundle, event, object);
 	}
 	
-	public void start() throws Exception {
-		System.out.println("start");
-		listener = new BundleListener(this.context);
-		listener.open();
-	}
-
-	public void stop() throws Exception {
-		System.out.println("start");
-		listener.close();
-	}
-
-	@Deprecated
 	public void setEpCenter(EventProcessingCenter epCenter) {
 		this.epCenter = epCenter;
 	}
